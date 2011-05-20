@@ -19,12 +19,12 @@ class rsyslog( $remote = false ) {
 		ensure	=> installed,
 	}
 
-	file { '/etc/default/rsyslog':
+	file { '/etc/rsyslog.conf':
 		ensure	=> file,
 		owner	=> root,
 		group	=> root,
 		mode	=> '0644',
-		content	=> template('rsyslog/rsyslog.erb'),
+		content	=> template('rsyslog/rsyslog.conf.erb'),
 		require => Package['rsyslog'],
 	}
 
@@ -32,6 +32,6 @@ class rsyslog( $remote = false ) {
 		ensure		=> running,
 		enable		=> true,
 		require		=> Package['rsyslog'],
-		subscribe	=> File['/etc/default/rsyslog'],
+		subscribe	=> File['/etc/rsyslog.conf'],
 	}
 }
