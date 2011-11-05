@@ -15,23 +15,23 @@
 #    }
 #
 class rsyslog( $remote = false ) {
-	package { 'rsyslog':
-		ensure	=> installed,
-	}
+    package { 'rsyslog':
+        ensure  => installed,
+    }
 
-	file { '/etc/rsyslog.conf':
-		ensure	=> file,
-		owner	=> root,
-		group	=> root,
-		mode	=> '0644',
-		content	=> template('rsyslog/rsyslog.conf.erb'),
-		require => Package['rsyslog'],
-	}
+    file { '/etc/rsyslog.conf':
+        ensure  => file,
+        owner   => root,
+        group   => root,
+        mode    => '0644',
+        content => template('rsyslog/rsyslog.conf.erb'),
+        require => Package['rsyslog'],
+    }
 
-	service { 'rsyslog':
-		ensure		=> running,
-		enable		=> true,
-		require		=> Package['rsyslog'],
-		subscribe	=> File['/etc/rsyslog.conf'],
-	}
+    service { 'rsyslog':
+        ensure      => running,
+        enable      => true,
+        require     => Package['rsyslog'],
+        subscribe   => File['/etc/rsyslog.conf'],
+    }
 }
