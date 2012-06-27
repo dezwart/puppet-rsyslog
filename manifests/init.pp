@@ -21,7 +21,7 @@ class rsyslog( $remote = false,
     $forwarders = undef ) {
 
     $package = 'rsyslog'
-    $service = 'rsyslogd'
+    $service = 'rsyslog'
 
     package { $package:
         ensure  => installed,
