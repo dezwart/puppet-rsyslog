@@ -6,6 +6,9 @@
 #   Specify true if this service is to receive remote syslog message.
 #   Default is false.
 #
+# [*forwarders*]
+#   List of Syslog remote forwarders to send messages to.
+#
 # == Variables
 #
 # == Examples
@@ -14,24 +17,29 @@
 #        remote => true,
 #    }
 #
-class rsyslog( $remote = false ) {
-    package { 'rsyslog':
+class rsyslog( $remote = false,
+    $forwarders = undef ) {
+
+    $package = 'rsyslog'
+    $service = 'rsyslog'
+
+    package { $package:
         ensure  => installed,
     }
 
-    file { '/etc/rsyslog.conf':
+    file { "/etc/$package.conf":
         ensure  => file,
         owner   => root,
         group   => root,
         mode    => '0644',
-        content => template('rsyslog/rsyslog.conf.erb'),
-        require => Package['rsyslog'],
+        content => template("$name/$package.conf.erb"),
+        require => Package[$package],
     }
 
-    service { 'rsyslog':
+    service { $service:
         ensure      => running,
         enable      => true,
-        require     => Package['rsyslog'],
+        require     => Package[$package],
         subscribe   => File['/etc/rsyslog.conf'],
     }
 }
