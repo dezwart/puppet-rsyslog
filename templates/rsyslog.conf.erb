@@ -120,3 +120,4 @@ daemon.*;mail.*;\
     news.err;\
     *.=debug;*.=info;\
     *.=notice;*.=warn   |/dev/xconsole
+<% if @forwarders %><% forwarders.each do |forwarder| -%>*.*  @<%= forwarder %><% end %><% end %>
