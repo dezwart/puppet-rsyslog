@@ -32,7 +32,7 @@ class rsyslog( $remote = false,
         owner   => root,
         group   => root,
         mode    => '0644',
-        content => template("$name/$package.conf.erb"),
+        content => template("$name/$package.conf.$operatingsystem.erb"),
         require => Package[$package],
     }
 
