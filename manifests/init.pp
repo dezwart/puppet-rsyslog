@@ -13,33 +13,35 @@
 #
 # == Examples
 #
-#    class { 'rsyslog':
-#        remote => true,
-#    }
+# class { 'rsyslog':
+#   remote => true,
+# }
 #
 class rsyslog( $remote = false,
-    $forwarders = undef ) {
+  $forwarders = undef ) {
 
-    $package = 'rsyslog'
-    $service = 'rsyslog'
+  $package = 'rsyslog'
+  $service = 'rsyslog'
 
-    package { $package:
-        ensure  => installed,
-    }
+  package { $package:
+    ensure  => installed,
+  }
 
-    file { "/etc/$package.conf":
-        ensure  => file,
-        owner   => root,
-        group   => root,
-        mode    => '0644',
-        content => template("$name/$package.conf.erb"),
-        require => Package[$package],
-    }
+  file { "/etc/$package.conf":
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    content => template("$name/$package.conf.erb"),
+    require => Package[$package],
+  }
 
-    service { $service:
-        ensure      => running,
-        enable      => true,
-        require     => Package[$package],
-        subscribe   => File['/etc/rsyslog.conf'],
-    }
+  service { $service:
+    ensure    => running,
+    enable    => true,
+    require   => Package[$package],
+    subscribe => File['/etc/rsyslog.conf'],
+  }
 }
+
+/* vim: set ts=2 sw=2 sts=2 tw=0 et:*/
