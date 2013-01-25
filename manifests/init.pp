@@ -27,12 +27,12 @@ class rsyslog( $remote = false,
     ensure  => installed,
   }
 
-  file { "/etc/$package.conf":
+  file { "/etc/${package}.conf":
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0644',
-    content => template("$name/$package.conf.$operatingsystem.erb"),
+    content => template("${name}/${package}.conf.${::operatingsystem}.erb"),
     require => Package[$package],
   }
 
@@ -44,4 +44,4 @@ class rsyslog( $remote = false,
   }
 }
 
-/* vim: set ts=2 sw=2 sts=2 tw=0 et:*/
+# vim: set ts=2 sw=2 sts=2 tw=0 et:
