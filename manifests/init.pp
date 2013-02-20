@@ -20,27 +20,31 @@
 class rsyslog( $remote = false,
   $forwarders = undef ) {
 
-  $package = 'rsyslog'
-  $service = 'rsyslog'
+  if $::operatingsystem == 'Debian' or $::operatingsystem == 'Ubuntu' {
+    $package = 'rsyslog'
+    $service = 'rsyslog'
 
-  package { $package:
-    ensure  => installed,
-  }
+    package { $package:
+      ensure  => installed,
+    }
 
-  file { "/etc/${package}.conf":
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    content => template("${name}/${package}.conf.${::operatingsystem}.erb"),
-    require => Package[$package],
-  }
+    file { "/etc/${package}.conf":
+      ensure  => file,
+      owner   => root,
+      group   => root,
+      mode    => '0644',
+      content => template("${name}/${package}.conf.${::operatingsystem}.erb"),
+      require => Package[$package],
+    }
 
-  service { $service:
-    ensure    => running,
-    enable    => true,
-    require   => Package[$package],
-    subscribe => File['/etc/rsyslog.conf'],
+    service { $service:
+      ensure    => running,
+      enable    => true,
+      require   => Package[$package],
+      subscribe => File['/etc/rsyslog.conf'],
+    }
+  } else {
+    fail("OS ${::operatingsystem} not supported, only Debian or Ubuntu.")
   }
 }
 
