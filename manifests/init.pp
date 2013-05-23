@@ -18,9 +18,9 @@
 # }
 #
 class rsyslog(
-  $remote = hiera('rsyslog::remote', false),
-  $forwarders = hiera('rsyslog::forwarders', undef)) {
-
+  $remote = false,
+  $forwarders = undef
+) {
   if $::operatingsystem == 'Debian' or $::operatingsystem == 'Ubuntu' {
     $package = 'rsyslog'
     $service = 'rsyslog'
