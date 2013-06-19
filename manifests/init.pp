@@ -17,9 +17,10 @@
 #   remote => true,
 # }
 #
-class rsyslog( $remote = false,
-  $forwarders = undef ) {
-
+class rsyslog(
+  $remote = false,
+  $forwarders = undef
+) {
   if $::operatingsystem == 'Debian' or $::operatingsystem == 'Ubuntu' {
     $package = 'rsyslog'
     $service = 'rsyslog'
